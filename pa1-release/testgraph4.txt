@@ -1,0 +1,11 @@
+echo the:10:blank-file.txt:4echo0.out
+echo quick:10:blank-file.txt:4echo1.out
+echo red:10:blank-file.txt:4echo2.out
+echo fox:10:blank-file.txt:4echo3.out
+echo jumped:10:blank-file.txt:4echo4.out
+echo over:10:blank-file.txt:4echo5.out
+echo the:10:blank-file.txt:4echo6.out
+echo lazy:10:blank-file.txt:4echo7.out
+echo brown:10:blank-file.txt:4echo8.out
+echo dog:10:blank-file.txt:4echo9.out
+cat 4echo0.out 4echo1.out 4echo2.out 4echo3.out 4echo4.out 4echo5.out 4echo6.out 4echo7.out 4echo8.out 4echo9.out:none:blank-file.txt:4cat.out

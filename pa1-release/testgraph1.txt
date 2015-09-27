@@ -1,0 +1,5 @@
+echo hi there:1:blank-file.txt:1echo1.out
+echo wazzup:2 3:blank-file.txt:1echo2.out
+cat:4:1echo1.out:1cat1.out
+cat:4:1echo2.out:1cat2.out
+cat 1cat1.out 1cat2.out:none:blank-file.txt:1sink.out

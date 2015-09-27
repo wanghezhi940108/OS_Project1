@@ -1,0 +1,26 @@
+total 100
+-rw-r--r-- 1 manner manner     9 Sep 16 15:16 0sink.out
+-rw-r--r-- 1 manner manner     9 Sep 16 15:16 1cat1.out
+-rw-r--r-- 1 manner manner     7 Sep 16 15:16 1cat2.out
+-rw-r--r-- 1 manner manner     9 Sep 16 15:16 1echo1.out
+-rw-r--r-- 1 manner manner     7 Sep 16 15:16 1echo2.out
+-rw-r--r-- 1 manner manner    16 Sep 16 15:16 1sink.out
+-rw-r--r-- 1 manner manner     0 Sep 16 15:16 2ls-out.out
+-rw-r--r-- 1 manner manner     0 Sep 16 15:16 2w-out.out
+-rw------- 1 manner manner     0 Sep 16 13:55 blank-file.txt
+-rw-rw-r-- 1 manner manner     0 Sep 16 15:02 blank-out.txt
+drwx------ 2 manner manner  4096 Sep 16 15:15 copies
+-rw-rw-r-- 1 manner manner  1649 Sep 16 14:48 extraCredit.h
+-rwxrwxr-x 1 manner manner 13948 Sep 16 15:02 graphexec
+-rw------- 1 manner manner  5115 Sep 16 14:49 graphexec.c
+-rw------- 1 manner manner  1115 Sep 15 11:46 makeargv.h
+-rw------- 1 manner manner   147 Sep 16 14:46 makefile
+-rw------- 1 manner manner    98 Sep 16 15:05 testCycle0.txt
+-rw-rw-r-- 1 manner manner   229 Sep 16 15:06 testCycle1.txt
+-rw------- 1 manner manner   217 Sep 16 15:14 testfail0.txt
+-rw------- 1 manner manner    44 Sep 16 15:12 testgraph0.txt
+-rw------- 1 manner manner   192 Sep 16 15:12 testgraph1.txt
+-rw------- 1 manner manner   305 Sep 16 15:04 testgraph2.txt
+-rw-rw-r-- 1 manner manner   478 Sep 13 20:06 testgraph3.txt
+-rw-rw-r-- 1 manner manner   532 Sep 16 15:11 testgraph4.txt
+-rw-rw-r-- 1 manner manner   613 Sep 16 15:09 testgraph5.txt

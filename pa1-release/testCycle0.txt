@@ -1,0 +1,2 @@
+echo hi first:1:blank-file.txt:0c-fail-sink.out
+echo hi second:0:blank-file.txt:0c-fail-sink2.out

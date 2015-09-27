@@ -1,0 +1,13 @@
+echo --------:1:blank-file.txt:5dashes.out
+ls:2:blank-file.txt:5ls.out
+cat 5ls.out 5dashes.out:3:blank-file.txt:5ls1.out
+mkdir 5testFolder:4:blank-file.txt:blank-out.txt
+touch 5helloWorld.out:5:blank-file.txt:blank-out.txt
+ls:6:blank-file.txt:5ls2.out
+cat 5ls2.out 5dashes.out:7:blank-file.txt:5ls3.out
+mv ./5helloWorld.out ./5testFolder:8:blank-file.txt:blank-out.txt
+ls:9:blank-file.txt:5ls4.out
+cat 5ls4.out 5dashes.out:10:blank-file.txt:5ls5.out
+rm -rf ./testFolder:11:blank-file.txt:blank-out.txt
+ls:12:blank-file.txt:5ls6.out
+cat 5ls1.out 5ls3.out 5ls5.out 5dashes.out 5ls6.out:none:blank-file.txt:5all.out

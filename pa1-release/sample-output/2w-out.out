@@ -1,0 +1,4 @@
+ 15:16:32 up  1:53,  2 users,  load average: 0.37, 0.23, 0.28
+USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
+manner   tty7                      13:24    1:52m  2:36   0.65s gnome-session -
+manner   pts/1    :0               13:25    0.00s  2.32s  0.00s sleep 1

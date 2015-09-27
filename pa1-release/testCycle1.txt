@@ -1,0 +1,5 @@
+echo hi:1:blank-file.txt:1c-fail-sink.out
+echo friend:2:blank-file.txt:1c-fail-sink2.out
+echo how:3 4:blank-file.txt:1c-fail-sink3.out
+echo you:0:blank-file.txt:1c-fail-sink4.out
+echo doing:none:blank-file.txt:1c-fail-sink5.out
