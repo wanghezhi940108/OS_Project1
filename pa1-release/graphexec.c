@@ -19,7 +19,6 @@ typedef struct node {
 int main() {
     //
     FILE *fp;
-    //char str[60];
     char *str = malloc(60);
     
     /* opening file for reading */
@@ -34,9 +33,7 @@ int main() {
     printf("%s\n",str);
     // makeargv
     int i;
-    char *a = malloc(sizeof(a) * sizeof(char));
-    a = ":"; 
-    //char a[] = ":";
+    const char *a = ":";
     char **argvp;
     int numtokens;
 
@@ -45,7 +42,7 @@ int main() {
         printf("%d:%s\n", i, argvp[i]);
     }
     free(str);
-    //free(a);
+    int j;
     return(0);
 
     //
