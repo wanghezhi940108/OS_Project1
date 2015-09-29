@@ -42,7 +42,6 @@ int main() {
         printf("%d:%s\n", i, argvp[i]);
     }
     free(str);
-    int j;
     return(0);
 
     //
