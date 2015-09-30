@@ -5,4 +5,3 @@ ls -al -v:6:blank-file.txt:2quota-out.out
 sleep 2:6:blank-file.txt:blank-out.txt
 w:6:blank-file.txt:2w-out.out
 cat 2ls-out.out 2quota-out.out 2w-out.out:none:blank-file.txt:2everything.out
-

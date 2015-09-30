@@ -21,10 +21,10 @@ typedef struct node {
 
 char** get_str() {
     char** string = (char**)malloc(10000);
-    char line[100];
+    char line[300];
  
     FILE *file; 
-    file = fopen("testgraph5.txt", "r"); 
+    file = fopen("testCycle1.txt", "r"); 
     int i = 0;
     while(fgets(line, sizeof line, file)!=NULL) {
         //printf("%s", line);
