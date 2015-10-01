@@ -1,0 +1,27 @@
+total 67
+-rw------- 1 chen3593 CSEL-student   487 Sep 27 17:22 \
+-rw------- 1 chen3593 CSEL-student     9 Oct  1 10:38 0sink.out
+-rwx------ 1 chen3593 CSEL-student     0 Sep 27 15:30 blank-file.txt
+-rwx------ 1 chen3593 CSEL-student     0 Sep 27 15:30 blank-out.txt
+-rw------- 1 chen3593 CSEL-student     0 Oct  1 10:40 file.txt
+-rwx------ 1 chen3593 CSEL-student 20796 Oct  1 10:38 graphexec
+-rw------- 1 chen3593 CSEL-student  5293 Oct  1 10:39 graphexec.c
+-rwx------ 1 chen3593 CSEL-student  1115 Sep 27 15:30 makeargv.h
+-rwx------ 1 chen3593 CSEL-student    91 Sep 27 15:30 makefile
+-rw------- 1 chen3593 CSEL-student   455 Sep 30 22:33 psudu_code.c
+-rwx------ 1 chen3593 CSEL-student  1013 Sep 27 15:30 redirect.c
+drwx------ 3 chen3593 CSEL-student    33 Sep 27 15:30 sample-output
+-rw------- 1 chen3593 CSEL-student    21 Sep 30 19:44 share.h
+-rwx------ 1 chen3593 CSEL-student 12642 Oct  1 10:39 string
+-rw------- 1 chen3593 CSEL-student  1387 Oct  1 10:37 string.c
+-rwx------ 1 chen3593 CSEL-student    97 Sep 27 15:30 testCycle0.txt
+-rwx------ 1 chen3593 CSEL-student   227 Sep 27 15:30 testCycle1.txt
+-rwx------ 1 chen3593 CSEL-student   217 Sep 27 15:30 testfail0.txt
+-rwx------ 1 chen3593 CSEL-student    44 Sep 27 15:30 testgraph0.txt
+-rwx------ 1 chen3593 CSEL-student   192 Sep 27 15:30 testgraph1.txt
+-rwx------ 1 chen3593 CSEL-student   304 Sep 30 11:40 testgraph2.txt
+-rwx------ 1 chen3593 CSEL-student   478 Sep 27 15:30 testgraph3.txt
+-rwx------ 1 chen3593 CSEL-student   532 Sep 27 15:30 testgraph4.txt
+-rwx------ 1 chen3593 CSEL-student   613 Sep 27 15:30 testgraph5.txt
+drwx------ 2 chen3593 CSEL-student     3 Oct  1 10:40 trash
+finish
