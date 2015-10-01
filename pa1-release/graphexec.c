@@ -14,6 +14,7 @@
 #include <string.h>
 
 int linenum;
+char *in_fp;
 
 typedef struct node {
     int id; // corresponds to line number in graph text file
@@ -67,7 +68,7 @@ char** get_str() {
     char line[300];
  
     FILE *file; 
-    file = fopen("testCycle1.txt", "r"); 
+    file = fopen(in_fp, "r"); 
     int i = 0;
     while(fgets(line, sizeof line, file)!=NULL) {
         string[i] = malloc(10000);
@@ -198,7 +199,14 @@ void exec_tree(struct node* n_array) {
 
 
 
-int main() {
+int main(int ac, char** av) {
+    
+    if(ac <= 1) {
+        printf ("Usage: ./graphexec <filename.txt>\n");
+        return 1;
+    }
+    
+    in_fp = av[1];
 
     struct node *n_array = get_node_array();
     int id;
