@@ -67,15 +67,12 @@ char** get_str() {
     char line[300];
  
     FILE *file; 
-    file = fopen("testgraph1.txt", "r"); 
+    file = fopen("testCycle1.txt", "r"); 
     int i = 0;
     while(fgets(line, sizeof line, file)!=NULL) {
-        //printf("%s", line);
         string[i] = malloc(10000);
         strcpy(string[i], line);
         i++;
-        //printf("%s\n",string[i - 1] );
-        //printf("%d\n", i);
     }
     linenum = i;
     fclose(file);
@@ -171,16 +168,13 @@ void run(struct node* n_array, int id) {
         wait(NULL);
         n_array[id].status = FINISHED;
         for(i=0; i<n_array[id].num_children; i++) {
-            n_array[i].num_parent --;
+            int child_index = n_array[id].children[i];
+            n_array[child_index].num_parent --;
         }
     }
 
     if(pid == 0) {
-        n_array[id].status = FINISHED;
-        
-        for(i=0; i<n_array[id].num_children; i++) {
-            n_array[i].num_parent --;
-        }
+        n_array[id].status = RUNNING;
         execvp(argv[0], &argv[0]);
         perror("child fail to exec \n");
         exit(0);
@@ -192,8 +186,9 @@ void exec_tree(struct node* n_array) {
     int *d_eligible = determine_eligible(n_array, &size);
     while(size != 0) {
         for(i=0; i<size; i++) {
-            if(n_array[i].status != FINISHED) {
-                run(n_array, i);
+            int eligible_index = d_eligible[i];
+            if(n_array[eligible_index].status != FINISHED) {
+                run(n_array, d_eligible[i]);
             }
         }
         size = 0;
