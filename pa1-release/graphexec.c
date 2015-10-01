@@ -5,6 +5,14 @@
 #define FINISHED 3
 #include "makeargv.h"
 #include "share.h"
+#include <sys/types.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
+#include <string.h>
+
 int linenum;
 
 typedef struct node {
@@ -18,6 +26,27 @@ typedef struct node {
     int status;
     pid_t pid; // track it when it's running
 } node_t;
+
+void redirect(char *input, char *output) {
+    int input_file = open(input, O_RDONLY);
+    if (input_file < 0){
+    	perror("Error opening input file in child after fork! Exiting.");
+    	exit(0);
+    } else {
+    	dup2(input_file, STDIN_FILENO);
+    	close(input_file);
+    }
+    
+    int output_file = open(output, O_WRONLY|O_CREAT|O_TRUNC, 0644);
+    
+    if (output_file < 0){
+    	perror("Error opening output file in child after fork! Exiting.");
+    	exit(0);
+    } else{
+    	dup2(output_file, STDOUT_FILENO);
+    	close(output_file);
+    }
+}
 
 char** get_str() {
     char** string = (char**)malloc(10000);
@@ -97,25 +126,24 @@ int *determine_eligible(struct node* n_array, int *size) {
     int *d_eligible = (int*)malloc(sizeof(int)*10);
     for(i=0; i<linenum; i++) {
         if(n_array[i].num_parent == 0) {
-            d_eligible[size] = i;
-            size++;
+            d_eligible[*size] = i;
+            *size++;
         }
     }
-}
-
-void exec_tree(struct node* n_array) {
-    int i;
-    int size = 0;
-    int *d_eligible = determine_eligible(n_array, &size);
-    while(d_eligible != NULL) {
-        for(i=0; i<size; i++) {
-            run(n_array, i);
-        }
-        d_eligible = determine_eligible(n_array, &size);
-    }
+    return d_eligible;
 }
 
 void run(struct node* n_array, int id) {
+    
+    char *prog = n_array[id].prog;
+    char *input = n_array[id].input;
+    char *output = n_array[id].output;
+    redirect(input, output);
+    const char *a = " ";
+    char **argv;
+    int numtokens = makeargv(prog, a, &argv);
+
+    
     pid_t pid = fork();
     int i;
     if(pid < 0) {
@@ -133,9 +161,24 @@ void run(struct node* n_array, int id) {
 
     if(pid == 0) {
         n_array[id].status = RUNNING;
-        char 
+        execvp(argv[0], &argv[0]);
+        perror("child fail to exec \n");
+        exit(1);
     }
 }
+void exec_tree(struct node* n_array) {
+    int i;
+    int size = 0;
+    int *d_eligible = determine_eligible(n_array, &size);
+    while(size != 0) {
+        for(i=0; i<size; i++) {
+            run(n_array, i);
+        }
+        d_eligible = determine_eligible(n_array, &size);
+    }
+}
+
+
 
 int main() {
 
@@ -154,11 +197,7 @@ int main() {
         fprintf(stderr, "Cycles exist in the graph!\n");
         exit(-1);
     }
-   // for(i=0; i<linenum; i++) {
-   //     printf("%d", n_array[i].num_parent);
-   //     printf("\n");
-   // }
-    
+    exec_tree(n_array);
     return(0);
 
 }
