@@ -24,7 +24,7 @@ char** get_str() {
     char line[300];
  
     FILE *file; 
-    file = fopen("testCycle1.txt", "r"); 
+    file = fopen("testgraph1.txt", "r"); 
     int i = 0;
     while(fgets(line, sizeof line, file)!=NULL) {
         //printf("%s", line);
@@ -92,12 +92,27 @@ struct node* get_node_array() {
     return n_array;
 }
 
+//void execute(**n_array) {
+//    
+//}
+
 int main() {
 
     struct node *n_array = get_node_array();
     int id;
     int i;
     int j;
+    int has_cycle = 1;
+    for(i=0; i<linenum; i++) {
+        if(n_array[i].num_parent == 0) {
+            has_cycle = 0;
+            break;
+        }
+    }
+    if(has_cycle) {
+        fprintf(stderr, "Cycles exist in the graph!\n");
+        exit(-1);
+    }
     for(i=0; i<linenum; i++) {
         printf("%d", n_array[i].num_parent);
         printf("\n");
