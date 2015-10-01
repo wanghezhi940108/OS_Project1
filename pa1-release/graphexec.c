@@ -27,7 +27,20 @@ typedef struct node {
     pid_t pid; // track it when it's running
 } node_t;
 
+void strip(char *s) {
+    char *p2 = s;
+        while(*s != '\0') {
+            if(*s != '\t' && *s != '\n') {
+                *p2++ = *s++;
+            } else {
+                ++s;
+            }
+        }
+    *p2 = '\0';
+} 
+
 void redirect(char *input, char *output) {
+    strip(input);
     int input_file = open(input, O_RDONLY);
     if (input_file < 0){
     	perror("Error opening input file in child after fork! Exiting.");
@@ -37,6 +50,7 @@ void redirect(char *input, char *output) {
     	close(input_file);
     }
     
+    strip(output);
     int output_file = open(output, O_WRONLY|O_CREAT|O_TRUNC, 0644);
     
     if (output_file < 0){
@@ -123,13 +137,15 @@ struct node* get_node_array() {
 
 int *determine_eligible(struct node* n_array, int *size) {
     int i;
-    int *d_eligible = (int*)malloc(sizeof(int)*10);
+    int j = *size;
+    int *d_eligible = (int*)malloc(sizeof(int)*1000);
     for(i=0; i<linenum; i++) {
-        if(n_array[i].num_parent == 0) {
-            d_eligible[*size] = i;
-            *size++;
+        if((n_array[i].num_parent == 0) && (n_array[i].status != 3)) {
+            d_eligible[j] = i;
+            j++;
         }
     }
+    *size = j;
     return d_eligible;
 }
 
@@ -144,13 +160,13 @@ void run(struct node* n_array, int id) {
     int numtokens = makeargv(prog, a, &argv);
 
     
-    pid_t pid = fork();
     int i;
+    pid_t pid = fork();
     if(pid < 0) {
         fprintf(stderr, "fork error\n");
         exit(-1);
     }
-    
+   
     if(pid > 0) {
         wait(NULL);
         n_array[id].status = FINISHED;
@@ -160,10 +176,14 @@ void run(struct node* n_array, int id) {
     }
 
     if(pid == 0) {
-        n_array[id].status = RUNNING;
+        n_array[id].status = FINISHED;
+        
+        for(i=0; i<n_array[id].num_children; i++) {
+            n_array[i].num_parent --;
+        }
         execvp(argv[0], &argv[0]);
         perror("child fail to exec \n");
-        exit(1);
+        exit(0);
     }
 }
 void exec_tree(struct node* n_array) {
@@ -172,8 +192,11 @@ void exec_tree(struct node* n_array) {
     int *d_eligible = determine_eligible(n_array, &size);
     while(size != 0) {
         for(i=0; i<size; i++) {
-            run(n_array, i);
+            if(n_array[i].status != FINISHED) {
+                run(n_array, i);
+            }
         }
+        size = 0;
         d_eligible = determine_eligible(n_array, &size);
     }
 }
