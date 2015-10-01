@@ -81,7 +81,7 @@ char** get_str() {
 }
 
 struct node* get_node_array() {
-    int i;
+    int i, j;
     const char *a = ":";
     int numtokens;
     char **str = get_str();
@@ -116,6 +116,9 @@ struct node* get_node_array() {
 
         n_array[i] = Node;
         //printf("%d\n", Node.input);
+    }
+    for(j=0; j<linenum; j++) {
+        free(str[j]);
     }
     free(str);
 
@@ -224,6 +227,7 @@ int main(int ac, char** av) {
         exit(-1);
     }
     exec_tree(n_array);
+    free(n_array);
     return(0);
 
 }
