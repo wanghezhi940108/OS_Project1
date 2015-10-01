@@ -92,9 +92,50 @@ struct node* get_node_array() {
     return n_array;
 }
 
-//void execute(**n_array) {
-//    
-//}
+int *determine_eligible(struct node* n_array, int *size) {
+    int i;
+    int *d_eligible = (int*)malloc(sizeof(int)*10);
+    for(i=0; i<linenum; i++) {
+        if(n_array[i].num_parent == 0) {
+            d_eligible[size] = i;
+            size++;
+        }
+    }
+}
+
+void exec_tree(struct node* n_array) {
+    int i;
+    int size = 0;
+    int *d_eligible = determine_eligible(n_array, &size);
+    while(d_eligible != NULL) {
+        for(i=0; i<size; i++) {
+            run(n_array, i);
+        }
+        d_eligible = determine_eligible(n_array, &size);
+    }
+}
+
+void run(struct node* n_array, int id) {
+    pid_t pid = fork();
+    int i;
+    if(pid < 0) {
+        fprintf(stderr, "fork error\n");
+        exit(-1);
+    }
+    
+    if(pid > 0) {
+        wait(NULL);
+        n_array[id].status = FINISHED;
+        for(i=0; i<n_array[id].num_children; i++) {
+            n_array[i].num_parent --;
+        }
+    }
+
+    if(pid == 0) {
+        n_array[id].status = RUNNING;
+        char 
+    }
+}
 
 int main() {
 
@@ -113,10 +154,11 @@ int main() {
         fprintf(stderr, "Cycles exist in the graph!\n");
         exit(-1);
     }
-    for(i=0; i<linenum; i++) {
-        printf("%d", n_array[i].num_parent);
-        printf("\n");
-    }
+   // for(i=0; i<linenum; i++) {
+   //     printf("%d", n_array[i].num_parent);
+   //     printf("\n");
+   // }
+    
     return(0);
 
 }
