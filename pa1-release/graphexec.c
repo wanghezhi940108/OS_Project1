@@ -65,6 +65,10 @@ void redirect(char *input, char *output) {
 
 char** get_str() {
     char** string = (char**)malloc(10000);
+    if (string == NULL) {
+        fprintf(stderr, "failed to allocate memory.\n");
+        exit(1);
+    }
     char line[300];
  
     FILE *file; 
@@ -72,6 +76,10 @@ char** get_str() {
     int i = 0;
     while(fgets(line, sizeof line, file)!=NULL) {
         string[i] = malloc(10000);
+        if (string[i] == NULL) {
+            fprintf(stderr, "failed to allocate memory.\n");
+            exit(1);
+        }
         strcpy(string[i], line);
         i++;
     }
@@ -86,6 +94,10 @@ struct node* get_node_array() {
     int numtokens;
     char **str = get_str();
     struct node* n_array = malloc(linenum * 10000);
+    if (n_array == NULL) {
+        fprintf(stderr, "failed to allocate memory.\n");
+        exit(1);
+    }
     static const struct node node_empty;
     struct node Node;
     char **argvp;
@@ -140,6 +152,10 @@ int *determine_eligible(struct node* n_array, int *size) {
     int i;
     int j = *size;
     int *d_eligible = (int*)malloc(sizeof(int)*1000);
+    if (d_eligible == NULL) {
+        fprintf(stderr, "failed to allocate memory.\n");
+        exit(1);
+    }
     for(i=0; i<linenum; i++) {
         if((n_array[i].num_parent == 0) && (n_array[i].status != 3)) {
             d_eligible[j] = i;
