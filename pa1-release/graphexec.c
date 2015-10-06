@@ -45,7 +45,7 @@ void redirect(char *input, char *output) {
     int input_file = open(input, O_RDONLY);
     if (input_file < 0){
     	perror("Error opening input file in child after fork! Exiting.");
-    	exit(0);
+    	exit(1);
     } else {
     	dup2(input_file, STDIN_FILENO);
     	close(input_file);
@@ -56,7 +56,7 @@ void redirect(char *input, char *output) {
     
     if (output_file < 0){
     	perror("Error opening output file in child after fork! Exiting.");
-    	exit(0);
+    	exit(1);
     } else{
     	dup2(output_file, STDOUT_FILENO);
     	close(output_file);
@@ -181,7 +181,7 @@ void run(struct node* n_array, int id) {
     pid_t pid = fork();
     if(pid < 0) {
         fprintf(stderr, "fork error\n");
-        exit(-1);
+        exit(1);
     }
    
     if(pid > 0) {
@@ -197,7 +197,7 @@ void run(struct node* n_array, int id) {
         n_array[id].status = RUNNING;
         execvp(argv[0], &argv[0]);
         perror("child fail to exec \n");
-        exit(0);
+        exit(1);
     }
 }
 void exec_tree(struct node* n_array) {
@@ -240,7 +240,7 @@ int main(int ac, char** av) {
     }
     if(has_cycle) {
         fprintf(stderr, "Cycles exist in the graph!\n");
-        exit(-1);
+        return(1);
     }
     exec_tree(n_array);
     free(n_array);
