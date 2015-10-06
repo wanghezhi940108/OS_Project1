@@ -1,3 +1,8 @@
+/*login: chen3593
+* date: 10/05/15
+* name: Raoyin Chen, Hezhi Wang
+* id: chen3593, wang5575*/
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <fcntl.h>
@@ -6,7 +11,6 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <string.h>
-
 #include "makeargv.h"
 #include "share.h"
 
@@ -30,6 +34,13 @@ typedef struct node {
     pid_t pid; // track it when it's running
 } node_t;
 
+/*
+ * Function:  strip 
+ * --------------------
+ * Removes illegal characters in a file name
+ *
+ *  s: the file name
+ */
 void strip(char *s) {
     char *p2 = s;
 
@@ -42,8 +53,15 @@ void strip(char *s) {
     }
 
     *p2 = '\0';
-} 
+}
 
+/*
+ * Function:  strip 
+ * --------------------
+ * Removes illegal characters in a file name
+ *
+ *  s: the file name
+ */
 void redirect(char *input, char *output) {
 
     strip(input);
@@ -69,6 +87,13 @@ void redirect(char *input, char *output) {
     }
 }
 
+/*
+ * Function:  get_str 
+ * --------------------
+ * Parse lines of characters from the input text file to an 2d char array
+ *
+ * returns: a 2d char array of the txt file content
+ */
 char** get_str() {
 
     char** string = (char**)malloc(10000);
@@ -82,8 +107,8 @@ char** get_str() {
     FILE *file; 
     file = fopen(in_fp, "r"); 
     if ( file == NULL ) {
-	printf ("File \"%s\" not found.\n", in_fp);
-	return 2;
+	    printf ("File \"%s\" not found.\n", in_fp);
+	    exit(2);
     }
 
     int i = 0;
@@ -102,6 +127,13 @@ char** get_str() {
     fclose(file);
     return string;
 }
+
+/*
+ * Function:  get_node_array 
+ * --------------------
+ * Construct the node array
+ * returns: an array with all the nodes
+ */
 
 struct node* get_node_array() {
 
@@ -127,7 +159,7 @@ struct node* get_node_array() {
         Node.id = i;
         Node.num_parent = 0;
         strcpy(Node.prog, argvp[0]);
-        // parse children from .txt file to node
+        /*parse children from .txt file to node*/
         const char *none = "none";
         if(!strcmp(argvp[1],none)) {
             Node.children[0] = -1;
@@ -140,8 +172,8 @@ struct node* get_node_array() {
               } while (n = strtok(NULL, " "));
              Node.num_children = k;
         }
-        strcpy(Node.input, argvp[2]);
-        strcpy(Node.output, argvp[3]);
+        strcpy(Node.input, argvp[2]); /*parse the input filename*/
+        strcpy(Node.output, argvp[3]); /*parse the output filename*/
         n_array[i] = Node;
     }
 
@@ -150,7 +182,7 @@ struct node* get_node_array() {
     }
 
     free(str);
-    // assign num_parent
+    /* assign num_parent*/
     for(i=0; i<linenum; i++) {
 
     	int j;
@@ -165,6 +197,12 @@ struct node* get_node_array() {
     return n_array;
 }
 
+/*
+ * Function:  determine_eligible
+ * --------------------
+ * Get the node ids that are ready to run
+ * returns: an array with the id of eligible nodes
+ */
 int *determine_eligible(struct node* n_array, int *size) {
 
     int i;
@@ -188,6 +226,13 @@ int *determine_eligible(struct node* n_array, int *size) {
     return d_eligible;
 }
 
+/*
+ * Function:  run
+ * --------------------
+ * Run the node with given id
+ * n_array: an array of all the nodes
+ * id: the id of the node to run
+ */
 void run(struct node* n_array, int id) {
     char *prog = n_array[id].prog;
     char *input = n_array[id].input;
@@ -210,7 +255,7 @@ void run(struct node* n_array, int id) {
         wait(NULL);
 
         n_array[id].status = FINISHED;
-
+        /*update parent numbers in every children*/
         for(i=0; i<n_array[id].num_children; i++) {
             int child_index = n_array[id].children[i];
             n_array[child_index].num_parent --;
@@ -224,6 +269,12 @@ void run(struct node* n_array, int id) {
     }
 }
 
+/*
+ * Function:  exec_tree
+ * --------------------
+ * Run the program tree
+ * n_array: an array of all the nodes
+ */
 void exec_tree(struct node* n_array) {
     int i;
     int size = 0;
