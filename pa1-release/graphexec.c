@@ -49,11 +49,9 @@ void redirect(char *input, char *output) {
     } else {
     	dup2(input_file, STDIN_FILENO);
     	close(input_file);
-    }
-    
+    }   
     strip(output);
     int output_file = open(output, O_WRONLY|O_CREAT|O_TRUNC, 0644);
-    
     if (output_file < 0){
     	perror("Error opening output file in child after fork! Exiting.");
     	exit(1);
@@ -70,7 +68,6 @@ char** get_str() {
         exit(1);
     }
     char line[300];
- 
     FILE *file; 
     file = fopen(in_fp, "r"); 
     int i = 0;
@@ -104,7 +101,6 @@ struct node* get_node_array() {
     for(i=0; i<linenum; i++) {
         Node = node_empty;
         numtokens = makeargv(str[i], a, &argvp);
-        
         Node.id = i;
         Node.num_parent = 0;
         strcpy(Node.prog, argvp[0]);
@@ -121,19 +117,14 @@ struct node* get_node_array() {
               } while (n = strtok(NULL, " "));
              Node.num_children = k;
         }
-        
         strcpy(Node.input, argvp[2]);
-        
         strcpy(Node.output, argvp[3]);
-
         n_array[i] = Node;
-        //printf("%d\n", Node.input);
     }
     for(j=0; j<linenum; j++) {
         free(str[j]);
     }
     free(str);
-
     // assign num_parent
     for(i=0; i<linenum; i++) {
         int j;
@@ -144,7 +135,6 @@ struct node* get_node_array() {
             }
         }
     }
-
     return n_array;
 }
 
@@ -167,7 +157,6 @@ int *determine_eligible(struct node* n_array, int *size) {
 }
 
 void run(struct node* n_array, int id) {
-    
     char *prog = n_array[id].prog;
     char *input = n_array[id].input;
     char *output = n_array[id].output;
@@ -175,15 +164,12 @@ void run(struct node* n_array, int id) {
     const char *a = " ";
     char **argv;
     int numtokens = makeargv(prog, a, &argv);
-
-    
     int i;
     pid_t pid = fork();
     if(pid < 0) {
         fprintf(stderr, "fork error\n");
         exit(1);
     }
-   
     if(pid > 0) {
         wait(NULL);
         n_array[id].status = FINISHED;
@@ -192,7 +178,6 @@ void run(struct node* n_array, int id) {
             n_array[child_index].num_parent --;
         }
     }
-
     if(pid == 0) {
         n_array[id].status = RUNNING;
         execvp(argv[0], &argv[0]);
@@ -200,6 +185,7 @@ void run(struct node* n_array, int id) {
         exit(1);
     }
 }
+
 void exec_tree(struct node* n_array) {
     int i;
     int size = 0;
@@ -216,17 +202,12 @@ void exec_tree(struct node* n_array) {
     }
 }
 
-
-
-int main(int ac, char** av) {
-    
+int main(int ac, char** av) {    
     if(ac <= 1) {
         printf ("Usage: ./graphexec <filename.txt>\n");
         return 1;
     }
-    
     in_fp = av[1];
-
     struct node *n_array = get_node_array();
     int id;
     int i;
@@ -245,7 +226,4 @@ int main(int ac, char** av) {
     exec_tree(n_array);
     free(n_array);
     return(0);
-
 }
-
-
